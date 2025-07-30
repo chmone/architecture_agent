@@ -16,7 +16,7 @@
 from dotenv import load_dotenv
 from google.adk import Agent
 from google.adk.agents import LoopAgent
-from google.adk.tools import google_search, exit_loop
+from google.adk.tools import google_search, exit_loop, AgentTool
 
 # Load environment variables
 load_dotenv()
@@ -43,6 +43,9 @@ search_agent = Agent(
     instruction=SEARCH_AGENT_PROMPT,
     tools=[google_search]  # ONLY agent with google_search tool
 )
+
+# Create AgentTool from search_agent for other agents to use
+search_agent_tool = AgentTool(agent=search_agent)
 
 # ===== DISCOVERY & UNDERSTANDING AGENTS =====
 
@@ -71,8 +74,7 @@ When you need to research information about:
 - Common failure points to avoid
 - Regulatory requirements for their industry
 
-Say: "I need to research [specific topic]. Let me get that information."
-The system will provide search results for your analysis.
+Use the search_agent tool directly to get current information from the web.
 
 Output format:
 ## What We Discovered Together
@@ -99,7 +101,7 @@ requirements_discovery_agent = Agent(
     name="requirements_discovery_agent",
     description="Helps users discover their true requirements through conversation",
     instruction=REQUIREMENTS_DISCOVERY_PROMPT,
-    tools=[]  # No tools - requests searches through search_agent
+    tools=[search_agent_tool]  # Can use search_agent via AgentTool
 )
 
 # Project Reality Check Agent - Provides honest assessment with encouragement
@@ -125,8 +127,7 @@ When you need to research:
 - Minimum viable team compositions
 - Typical pivot points
 
-Say: "I need to research [specific topic] to give you accurate information."
-The system will provide search results for your analysis.
+Use the search_agent tool directly to get current information from the web.
 
 Output format:
 ## Reality Check: [Project Name]
@@ -162,7 +163,7 @@ project_reality_check_agent = Agent(
     name="project_reality_check_agent",
     description="Provides honest feasibility assessment with mitigation strategies",
     instruction=PROJECT_REALITY_CHECK_PROMPT,
-    tools=[]  # No tools - requests searches through search_agent
+    tools=[search_agent_tool]  # Can use search_agent via AgentTool
 )
 
 # ===== EDUCATION & DECISION MAKING AGENTS =====
@@ -282,8 +283,7 @@ When you need to research:
 - Industry-specific requirements
 - Regulatory considerations
 
-Say: "I need to research [specific topic] for accurate planning."
-The system will provide search results for your analysis.
+Use the search_agent tool directly for accurate planning.
 
 Output format:
 ## Implementation Roadmap: [Project Name]
@@ -320,7 +320,7 @@ implementation_roadmap_agent = Agent(
     name="implementation_roadmap_agent",
     description="Creates practical, milestone-based implementation plans",
     instruction=IMPLEMENTATION_ROADMAP_PROMPT,
-    tools=[]  # No tools - requests searches through search_agent
+    tools=[search_agent_tool]  # Can use search_agent via AgentTool
 )
 
 # ===== TECHNICAL DESIGN AGENTS (keeping existing capability) =====
@@ -329,7 +329,7 @@ implementation_roadmap_agent = Agent(
 ARCHITECTURE_ANALYZER_PROMPT = """You are an architecture expert who translates business requirements into technical designs.
 
 When given requirements:
-1. When you need to research current best practices, say: "I need to research [specific technology/pattern]."
+1. Use the search_agent tool to research current best practices and patterns
 2. Propose architecture that balances simplicity with scalability
 3. Focus on what can actually be built by the team
 4. Explain technical choices in business terms
@@ -348,7 +348,7 @@ analyze_requirements_agent = Agent(
     name="analyze_requirements_agent",
     description="Translates requirements into technical architecture",
     instruction=ARCHITECTURE_ANALYZER_PROMPT,
-    tools=[]  # No tools - requests searches through search_agent
+    tools=[search_agent_tool]  # Can use search_agent via AgentTool
 )
 
 # Architecture Validator
@@ -390,21 +390,23 @@ USER_CENTRIC_ORCHESTRATOR_PROMPT = """You are a friendly architecture assistant 
 ## Your Mission
 Guide users from "I have an idea" to "I know exactly what to build and how" through education and empowerment.
 
-## Your Sub-Agents
+## Your Core Responsibility
+You are the MAIN CONVERSATIONALIST. When sub-agents complete their work, YOU must:
+- Take back control of the conversation
+- Synthesize and present their findings
+- Keep the dialogue flowing naturally
+- Never let the conversation stall
 
-### Research Support:
-- **search_agent**: Performs web searches for all other agents
-  Use when: Any agent needs current information from the web
-  IMPORTANT: This is the ONLY agent that can search the web
+## Your Sub-Agents
 
 ### Discovery & Understanding:
 - **requirements_discovery_agent**: Helps users discover what they really need through conversation
   Use when: Starting fresh, user has an idea but needs help clarifying
-  Note: Will request searches through search_agent when needed
+  Note: Has direct search capabilities via search_agent tool
 
 - **project_reality_check_agent**: Provides honest assessment of feasibility
   Use when: User needs to understand challenges and adjust expectations
-  Note: Will request searches through search_agent when needed
+  Note: Has direct search capabilities via search_agent tool
 
 ### Education & Decision Making:
 - **education_loop_agent**: Explains technical choices in business terms through iteration
@@ -412,12 +414,12 @@ Guide users from "I have an idea" to "I know exactly what to build and how" thro
 
 - **architecture_loop_agent**: Develops technical architecture (when requirements are clear)
   Use when: Requirements are well-defined and technical design is needed
-  Note: Will request searches through search_agent when needed
+  Note: Sub-agents have direct search capabilities via search_agent tool
 
 ### Planning & Action:
 - **implementation_roadmap_agent**: Creates step-by-step actionable plans
   Use when: User needs to know HOW to build their solution
-  Note: Will request searches through search_agent when needed
+  Note: Has direct search capabilities via search_agent tool
 
 ## Conversation Flow
 
@@ -436,12 +438,34 @@ Guide users from "I have an idea" to "I know exactly what to build and how" thro
 5. **End with clear next steps**:
    "I'll have the implementation_roadmap_agent create your action plan."
 
-## Handling Search Requests
+## Handling Loop Completions
 
-When any agent says they need to research something:
-- Immediately delegate to search_agent with the specific query
-- Example: If requirements_discovery_agent says "I need to research market size for dog walking apps"
-- You respond: "I'll have the search_agent look that up" and delegate to search_agent
+When a loop agent (like architecture_loop_agent or education_loop_agent) completes:
+
+1. **Summarize the Results**: Present a clear, comprehensive summary of what was discovered/designed
+2. **Highlight Key Decisions**: Point out the most important choices and trade-offs
+3. **Ask for Approval**: Always ask the user if they're happy with the results
+4. **Offer Next Steps**: Based on approval, suggest what to do next
+
+Example after architecture_loop_agent completes:
+"Great! The architecture team has completed their analysis. Here's what they've designed for you:
+
+**Proposed Architecture:**
+[Summarize the key architecture decisions]
+
+**Technology Stack:**
+[List the main technologies chosen]
+
+**Key Benefits:**
+[Why this approach works for their situation]
+
+**Important Trade-offs:**
+[What they're giving up for what they're gaining]
+
+Does this architecture look good to you? Would you like me to:
+- Create an implementation roadmap for this design?
+- Explore any specific concerns you have?
+- Have the education team explain any technical concepts?"
 
 ## Example Interactions
 
@@ -463,6 +487,26 @@ You: "Great question - let's get realistic about the investment needed. I'll hav
 - Make users feel smart and empowered
 - Celebrate their vision while keeping them grounded
 
+## Critical: Post-Agent Completion Behavior
+
+After ANY agent or loop completes their work:
+1. ALWAYS return control to this orchestrator
+2. ALWAYS summarize what was accomplished
+3. ALWAYS ask for user feedback or approval
+4. NEVER let the conversation pause or end abruptly
+5. ALWAYS suggest logical next steps
+
+Examples of proper completion handling:
+
+**After requirements_discovery_agent:**
+"Excellent! We've uncovered the core of your vision. Here's what I understand... Is this accurate? Shall we assess the feasibility?"
+
+**After education_loop_agent:**
+"I hope that explanation helped clarify things! Do you feel comfortable with this decision now? Would you like to explore other aspects?"
+
+**After implementation_roadmap_agent:**
+"Here's your complete roadmap to success! Does this timeline work for you? Any phases you'd like to adjust?"
+
 Remember: Your success is measured by their confidence and understanding, not architectural perfection."""
 
 # Create root agent - CRITICAL: NO TOOLS!
@@ -473,7 +517,7 @@ root_agent = Agent(
     instruction=USER_CENTRIC_ORCHESTRATOR_PROMPT,
     # NO TOOLS - only sub_agents to avoid function calling error
     sub_agents=[
-        search_agent,  # Central search service for all agents
+        # Note: search_agent removed - now available via AgentTool to sub-agents
         requirements_discovery_agent,
         project_reality_check_agent,
         education_loop_agent,

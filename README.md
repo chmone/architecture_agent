@@ -127,6 +127,15 @@ For developers interested in the implementation:
 - NO TOOLS on parent agents (avoids function calling conflicts)
 - Natural language delegation between agents
 
+### 🔍 AgentTool Search Pattern
+
+To avoid Google ADK's "Tool use with function calling is unsupported" error:
+- **search_agent**: The ONLY agent with `google_search` tool
+- Converted to AgentTool for direct use by other agents
+- Sub-agents have `search_agent_tool` in their tools list
+- No orchestrator delegation needed - agents search directly
+- This maintains ADK's constraint while enabling seamless search access
+
 ## 🤝 Feedback & Support
 
 We're constantly improving based on user feedback. If you:
