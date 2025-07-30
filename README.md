@@ -1,28 +1,30 @@
-# Architecture Assistant - Multi-Agent System
+# Architecture Assistant - Your Technical Co-Founder
 
-A sophisticated software architecture assistant built using Google ADK (Agent Development Kit) with Gemini 2.0 Flash. This system helps developers make informed architecture decisions through intelligent multi-agent collaboration.
+A friendly AI assistant that helps non-technical founders and entrepreneurs turn their ideas into actionable technical plans. Built with Google ADK and Gemini 2.0 Flash, it focuses on education and empowerment rather than technical jargon.
 
-## 🎯 Key Features
+## 🎯 What It Does
 
-- **Intelligent Architecture Analysis**: Researches and proposes optimal solutions based on your requirements
-- **Iterative Refinement**: Validates and improves proposals through multi-agent collaboration
-- **Current Best Practices**: Uses Google Search to find up-to-date patterns and recommendations
-- **Practical Focus**: Balances ideal solutions with real-world constraints
+- **Discovers Your Real Needs**: Through conversation, uncovers requirements you didn't know you had
+- **Explains Technical Choices**: Uses everyday analogies to help you understand complex decisions
+- **Provides Reality Checks**: Honest assessment of challenges with practical solutions
+- **Creates Action Plans**: Step-by-step roadmaps you can actually follow
+- **Builds Your Confidence**: Empowers you to talk to developers and make informed decisions
 
-## 🏗️ Architecture Pattern
+## 🤝 How It Works
 
-This implementation uses a **hierarchical multi-agent pattern** that avoids common pitfalls:
+Think of it as having a conversation with a knowledgeable friend who:
+1. **Listens** to understand your vision
+2. **Asks smart questions** to uncover what you really need
+3. **Explains options** in terms you understand
+4. **Gives honest advice** about challenges and solutions
+5. **Creates a roadmap** you can actually follow
 
-```
-root_agent (NO TOOLS - only sub_agents)
-└── architecture_loop_agent (LoopAgent)
-    ├── analyze_requirements_agent (has google_search tool)
-    └── double_check_agent (has exit_loop tool)
-```
+## 👥 Perfect For
 
-### Critical Design Decision
-
-The root agent has **NO TOOLS** to avoid the "Tool use with function calling is unsupported" error. It only delegates to sub-agents through natural language in its instructions.
+- **Entrepreneurs** with an idea but no technical background
+- **Product Managers** who need to understand architecture
+- **Business Owners** looking to digitize their operations
+- **Anyone** who's ever said "I have an app idea but..."
 
 ## 🚀 Getting Started
 
@@ -44,22 +46,30 @@ The root agent has **NO TOOLS** to avoid the "Tool use with function calling is 
    # Select 'architecture_assistant' when prompted
    ```
 
-## 💬 Example Queries
+## 💬 Example Conversations
 
-- "I need to design a web app that will serve 50,000 daily active users"
-- "Help me choose between microservices and monolith for a startup with 3 developers"
-- "What's the best architecture for a real-time chat application?"
-- "I have a 6-month timeline and need to build an e-commerce platform"
+**Starting Fresh:**
+- "I want to build an app like Uber but for dog walking"
+- "I have an idea for helping restaurants reduce food waste"
+- "I need to modernize my business but don't know where to start"
 
-## 🔄 How It Works
+**Getting Clarity:**
+- "What do you mean by 'cloud'? Where does my app actually live?"
+- "Should I build a mobile app or web app first?"
+- "How do I know if my idea is technically feasible?"
 
-1. **User provides requirements** → Root agent gathers key information
-2. **Root agent delegates** → Mentions `architecture_loop_agent` in natural language
-3. **Loop agent coordinates**:
-   - `analyze_requirements_agent` researches and proposes solutions
-   - `double_check_agent` validates the proposal
-   - Iterates up to 3 times for refinement
-4. **Final architecture** → Presented to user with clear reasoning
+**Making Decisions:**
+- "What's the real difference between hiring freelancers vs an agency?"
+- "How much should I budget for building an MVP?"
+- "When do I need to worry about things like 'scaling'?"
+
+## 🛠️ Your Journey
+
+1. **Discovery Phase** → We explore your idea together through conversation
+2. **Reality Check** → Honest assessment of what's involved (time, money, complexity)
+3. **Education** → Learn key concepts with everyday analogies (no jargon!)
+4. **Planning** → Get a step-by-step roadmap with clear milestones
+5. **Confidence** → Leave knowing exactly what to do next
 
 ## 📁 Project Structure
 
@@ -71,48 +81,60 @@ architecture_assistant/
 └── .env              # Your Google API key (create this)
 ```
 
-## 🚧 Roadmap
+## 📈 What You'll Get
 
-### Phase 1: Core Foundation ✅
-- Basic multi-agent architecture
-- Requirements analysis and validation
-- Iterative refinement loop
+After working with the Architecture Assistant, you'll receive:
 
-### Phase 2: Enhanced Analysis (Coming Soon)
-- Security architecture analysis
-- Scalability evaluation
-- Cost optimization recommendations
+1. **Clear Understanding** of what you're building and why
+2. **Technology Recommendations** explained in plain English  
+3. **Realistic Timeline & Budget** based on similar projects
+4. **Step-by-Step Roadmap** with specific milestones
+5. **Risk Assessment** with practical solutions
+6. **Hiring Guide** for finding the right developers
+7. **Glossary** of terms you'll need to know
+8. **Confidence** to move forward with your project
 
-### Phase 3: Pattern Library
-- Microservices patterns
-- Event-driven architectures
-- Data architecture patterns
+## 🚧 Evolution
 
-### Phase 4: Technology Recommendations
-- Framework selection based on requirements
-- Database technology recommendations
-- Infrastructure choices
+### Current: User-Centric Foundation ✅
+- Socratic discovery process
+- Plain-language explanations
+- Reality-based planning
+- Educational approach
 
-### Phase 5: Documentation Generation
-- Architecture Decision Records (ADRs)
-- System design diagrams
-- Technology comparison matrices
+### Coming Soon: Enhanced Features
+- Visual architecture diagrams
+- Cost calculator with real estimates
+- Team-building assistant
+- Progress tracking
+- Direct developer matchmaking
 
-## 🛠️ Technical Notes
+## 🌟 Our Philosophy
 
-- **Framework**: Google ADK with Gemini 2.0 Flash
-- **Pattern**: Hierarchical multi-agent with natural language delegation
-- **Key Constraint**: Agents cannot have both tools AND sub_agents
-- **Delegation**: Through mentioning agent names in instructions
+**We believe that:**
+- Everyone with a good idea deserves to build it
+- Technical decisions shouldn't require a CS degree
+- Understanding > Implementation
+- Empowerment > Dependency
+- Honesty > Hype
 
-## 🤝 Contributing
+## 🛠️ Technical Implementation
 
-This project demonstrates proper multi-agent patterns with Google ADK. Feel free to explore and extend the architecture following these principles:
+For developers interested in the implementation:
+- Built with Google ADK (Agent Development Kit)
+- Uses Gemini 2.0 Flash for natural conversation
+- Multi-agent architecture with specialized roles
+- NO TOOLS on parent agents (avoids function calling conflicts)
+- Natural language delegation between agents
 
-1. Keep root agents tool-free when using sub_agents
-2. Use natural language for delegation
-3. Test incrementally to avoid breaking the pattern
-4. Document your architectural decisions
+## 🤝 Feedback & Support
+
+We're constantly improving based on user feedback. If you:
+- Get confused by something → We'll make it clearer
+- Need a feature → We'll consider adding it
+- Have a success story → We'd love to hear it!
+
+Remember: There are no "stupid questions" - if you're wondering about something, ask!
 
 ## 📝 License
 
