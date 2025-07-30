@@ -2,7 +2,6 @@
 .env
 .env.local
 .env.*.local
-.venv
 
 # Python
 __pycache__/
@@ -27,10 +26,3 @@ Thumbs.db
 *.log
 .adk_cache/
 artifacts/
-.adk/
-*.session.json
-
-# Project specific
-temp/
-tmp/
-.cache/
