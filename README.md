@@ -75,10 +75,23 @@ Think of it as having a conversation with a knowledgeable friend who:
 
 ```
 architecture_assistant/
-├── agent.py           # Main implementation (all agents defined here)
-├── __init__.py        # Package initialization
-├── README.md          # This file
-└── .env              # Your Google API key (create this)
+├── agent.py              # Root orchestrator (imports from agents/)
+├── __init__.py           # Package initialization
+├── agents/               # Modular agent architecture
+│   ├── __init__.py       # Agent exports
+│   ├── orchestrator.py   # Root orchestrator configuration
+│   ├── discovery.py      # Requirements & reality check agents
+│   ├── education.py      # Educational loop agents
+│   ├── technical.py      # Architecture design agents
+│   ├── planning.py       # Implementation roadmap agent
+│   └── search.py         # Centralized search service (AgentTool)
+├── docs/                 # Technical documentation
+│   ├── AGENTTOOL_PATTERN.md      # AgentTool implementation guide
+│   ├── AGENT_EXIT_CRITERIA.md    # Agent completion criteria
+│   ├── ARCHITECTURE_REFACTORING.md # Modular architecture design
+│   └── SEARCH_DELEGATION_PATTERN.md # Search pattern explanation
+├── README.md             # This file
+└── .env                  # Your Google API key (create this)
 ```
 
 ## 📈 What You'll Get
@@ -101,6 +114,10 @@ After working with the Architecture Assistant, you'll receive:
 - Plain-language explanations
 - Reality-based planning
 - Educational approach
+- Modular agent architecture
+- Seamless search integration via AgentTool
+- Clear exit criteria for proper handoffs
+- Smart orchestrator that skips greeting when user shares idea
 
 ### Coming Soon: Enhanced Features
 - Visual architecture diagrams
@@ -126,6 +143,8 @@ For developers interested in the implementation:
 - Multi-agent architecture with specialized roles
 - NO TOOLS on parent agents (avoids function calling conflicts)
 - Natural language delegation between agents
+- Modular architecture with clear separation of concerns
+- Exit criteria for all agents to ensure proper handoffs
 
 ### 🔍 AgentTool Search Pattern
 
