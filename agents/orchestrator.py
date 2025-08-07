@@ -1,4 +1,3 @@
-# Copyright 2025
 # Architecture Assistant - Main Orchestrator Module
 #
 # This module contains the root orchestrator prompt and configuration

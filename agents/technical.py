@@ -1,4 +1,3 @@
-# Copyright 2025
 # Architecture Assistant - Technical Design Agents
 #
 # These agents handle technical architecture design and validation

@@ -1,17 +1,4 @@
-# Copyright 2025
 # Architecture Assistant - User-Centric Multi-Agent System
-# 
-# This implementation focuses on education and empowerment for non-technical users
-# turning their ideas into actionable technical plans through conversation and learning.
-#
-# CRITICAL ADK CONSTRAINTS:
-# 1. Agents can have either 'tools' OR 'sub_agents', NEVER both
-# 2. Root orchestrator: Has sub_agents only (no tools property)
-# 3. Worker agents: Have tools only (no sub_agents property)
-# 4. Delegation happens through natural language mentions, not function calls
-# 5. Keep delegation phrases simple: "Let's use X" not "I'll have X do Y"
-#
-# This architecture prevents "Tool use with function calling is unsupported" error
 
 from dotenv import load_dotenv
 from google.adk import Agent

@@ -1,14 +1,10 @@
-# Copyright 2025
 # Architecture Assistant - Search Agent Module
 #
-# CRITICAL: Only ONE agent in the entire system can have google_search tool
 # This module provides the centralized search service for all other agents
 
 from google.adk import Agent
 from google.adk.tools import google_search, AgentTool
 
-# ===== SHARED SEARCH AGENT =====
-# CRITICAL: Only ONE agent in the system can have google_search tool
 # All other agents must request searches through this agent
 
 SEARCH_AGENT_PROMPT = """You are a research assistant that performs web searches for other agents.

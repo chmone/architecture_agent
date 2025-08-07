@@ -1,4 +1,3 @@
-# Copyright 2025
 # Architecture Assistant - Education & Decision Making Agents
 #
 # These agents help users understand technical concepts through analogies and iterative learning

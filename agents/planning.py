@@ -1,4 +1,3 @@
-# Copyright 2025
 # Architecture Assistant - Planning & Action Agents
 #
 # These agents create actionable roadmaps and implementation plans

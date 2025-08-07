@@ -1,4 +1,3 @@
-# Copyright 2025
 # Architecture Assistant - Discovery & Understanding Agents
 #
 # These agents help users discover their true requirements and understand project feasibility
