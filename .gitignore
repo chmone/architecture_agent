@@ -18,6 +18,7 @@ env/
 .idea/
 *.swp
 *.swo
+/docs
 
 # OS
 .DS_Store
@@ -29,7 +30,6 @@ Thumbs.db
 artifacts/
 .adk/
 *.session.json
-/docs
 
 # Project specific
 temp/
